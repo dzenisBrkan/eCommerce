@@ -43,4 +43,19 @@ public class ProductService : IProductService
 
         return null;
     }
+
+    public async Task<JsonResponse> SearchProducts(string query)
+    {
+        var url = $"https://dummyjson.com/products/search?q={query}";
+        var response = await _httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var productResponse = JsonConvert.DeserializeObject<JsonResponse>(jsonString);
+            return productResponse ?? new JsonResponse();
+        }
+
+        return new JsonResponse();
+    }
 }

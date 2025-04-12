@@ -16,6 +16,8 @@ export class ProductListComponent implements OnInit {
   productsPerPage: number = 10;
   totalPages: number = 0;
 
+  searchQuery: string = '';
+
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -49,4 +51,20 @@ export class ProductListComponent implements OnInit {
       this.loadProducts();
     }
   }
+
+  onSearch(): void {
+    this.loading = true;
+    this.productService.searchProducts(this.searchQuery).subscribe({
+      next: (data: ProductResponse) => {
+        this.products = data.products;
+        this.totalProducts = data.total;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Search error:', err);
+        this.loading = false;
+      }
+    });
+} 
+
 }

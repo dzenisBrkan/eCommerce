@@ -1,8 +1,21 @@
 <div class="container">
   <h1 class="mt-4">Product List</h1>
 
+  <!-- Search Bar -->
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search products..."
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="onSearch()"
+    />
+  </div>
+
+  <!-- Loading Indicator -->
   <div *ngIf="loading">Loading...</div>
 
+  <!-- Product Table -->
   <div *ngIf="!loading">
     <table class="table table-striped">
       <thead>
@@ -27,10 +40,16 @@
       </tbody>
     </table>
 
-    <div class="pagination">
-      <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Previous</button>
+    <!-- Pagination Controls -->
+    <div class="pagination d-flex justify-content-center align-items-center gap-3">
+      <button class="btn btn-secondary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">
+        Previous
+      </button>
       <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Next</button>
+      <button class="btn btn-secondary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">
+        Next
+      </button>
     </div>
   </div>
 </div>
+<br><br>

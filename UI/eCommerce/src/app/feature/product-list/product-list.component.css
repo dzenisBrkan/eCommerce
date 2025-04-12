@@ -20,8 +20,11 @@
 }
 
 .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   margin-top: 20px;
-  text-align: center;
 }
 
 .pagination button {

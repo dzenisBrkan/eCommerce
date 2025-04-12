@@ -38,5 +38,15 @@ namespace AbySalto.Mid.Controllers
             if (product == null) return NotFound();
             return Ok(product);
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<JsonResponse>> SearchProducts([FromQuery] string q)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return BadRequest("Query cannot be empty.");
+
+            var products = await _productService.SearchProducts(q);
+            return Ok(products);
+        }
     }
 }
