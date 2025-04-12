@@ -14,9 +14,11 @@ public class ProductService : IProductService
         //_context = context;
     }
 
-    public async Task<JsonResponse> GetAllProducts()
+    public async Task<JsonResponse> GetAllProducts(int Page, int productsPerPage)
     {
-        var response = await _httpClient.GetAsync("https://dummyjson.com/products");
+        int skip = (Page - 1) * productsPerPage;
+        string url = $"https://dummyjson.com/products?skip={skip}&limit={productsPerPage}";
+        var response = await _httpClient.GetAsync(url);
 
         if (response.IsSuccessStatusCode)
         {

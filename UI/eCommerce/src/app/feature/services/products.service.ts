@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ProductOne } from '../models/products.model';
-import { AddProducts } from '../models/add-products-request.model';
-import { map } from 'rxjs/operators';
 import { ProductResponse } from '../models/products-response.model';
 
 @Injectable({
@@ -12,19 +9,16 @@ import { ProductResponse } from '../models/products-response.model';
 export class ProductService {
 
   private apiUrl = 'https://localhost:7221/api/product';
-  // private apiUrlTest = 'https://dummyjson.com/products';
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(this.apiUrl);
+  getProducts(page: number, productsPerPage: number): Observable<ProductResponse> {
+    // return this.http.get<ProductResponse>(this.apiUrl);
+    console.log("Page", page);
+    console.log("productsPerPage", productsPerPage);
+    const skip = (page - 1) * productsPerPage;
+    const url = `${this.apiUrl}?productsPerPage=${productsPerPage}&page=${page}`;
+
+    return this.http.get<ProductResponse>(url);
   }
-
-  // getProductById(id: number): Observable<Product> {
-  //   return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
-  // }
-
-  // getProductsList(page: number, limit: number): Observable<ProductResponse> {
-  //   return this.http.get<ProductResponse>(`${this.apiUrlTest}?skip=${(page - 1) * limit}&limit=${limit}`);
-  // }
 }

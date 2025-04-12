@@ -17,13 +17,16 @@ namespace AbySalto.Mid.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<JsonResponse>> Get()
+        public async Task<ActionResult<JsonResponse>> Get([FromQuery] int page, [FromQuery] int productsPerPage)
         {
-            var products = await _productService.GetAllProducts();
-            //if (products == null || products.Count == 0)
-            //{
-            //    return NotFound("No products found.");
-            //}
+            if (page < 1) page = 1;
+            if (productsPerPage < 1) productsPerPage = 10;
+
+            var products = await _productService.GetAllProducts(page, productsPerPage);
+            if (products == null)
+            {
+                return NotFound("No products found.");
+            }
 
             return Ok(products);
         }

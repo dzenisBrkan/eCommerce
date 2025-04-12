@@ -27,11 +27,10 @@
       </tbody>
     </table>
 
-    <!-- Pagination Controls -->
-    <!-- <div class="pagination">
+    <div class="pagination">
       <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">Previous</button>
-      <span>Page {{ currentPage }} of {{ totalPages() }}</span>
-      <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages()">Next</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">Next</button>
     </div>
-  </div> -->
+  </div>
 </div>
