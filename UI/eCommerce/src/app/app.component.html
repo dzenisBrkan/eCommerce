@@ -17,27 +17,32 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/bucket" routerLinkActive="active">Bucket</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/user-registration" routerLinkActive="active">User registration</a>
-      </li>
+     
 
-      <li class="nav-item">
-        <a class="nav-link text-warning" routerLink="/logout" routerLinkActive="active">Logout</a>
-      </li>
+      <ng-container *ngIf="isLoggedIn(); else guestLinks">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bucket" routerLinkActive="active">Bucket</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-warning" (click)="logout()">Logout</button>
+        </li>
+      </ng-container>
+
+      <ng-template #guestLinks>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLink="/user-registration" routerLinkActive="active">User registration</a>
+        </li> -->
+      </ng-template>
     </ul>
   </div>
 </nav>
 
-
 <div class="container mt-4">
-<router-outlet />
+  <router-outlet></router-outlet>
 </div>

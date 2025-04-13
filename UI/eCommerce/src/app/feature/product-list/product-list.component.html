@@ -80,9 +80,11 @@
           <button class="btn btn-primary w-100 mb-2" (click)="openProductModal(product.id, productModal)">
             View Details
           </button>
-          <button class="btn btn-success w-100" (click)="addToBucket(product)">
-            Add to Bucket 🛒
-          </button>
+          <ng-container *ngIf="isLoggedIn()">
+            <button class="btn btn-success w-100" (click)="addToBucket(product)">
+              Add to Bucket 🛒
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +8,7 @@ import { UserService } from '../services/user.service';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
   user = {
     name: '',
     surname: '',
@@ -19,19 +20,35 @@ export class ProfileComponent implements OnInit{
     address: '',
   };
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,  // Assuming you have a service to get user data
+    private http: HttpClient
+  ) {}
 
-  ngOnInit(): void {
-    this.userService.getCurrentUserInfo().subscribe({
-      next: (data) => {
-        this.user.name = data.name;
-        this.user.surname = data.surname;
-        this.user.email = data.email;
-        // optional: fill more fields if backend provides them
+  ngOnInit() {
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    const token = localStorage.getItem('access_token'); // Get token from localStorage
+
+    if (!token) {
+      console.error('User not authenticated.');
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+      // this.userService.getCurrentUserInfo().subscribe(
+    
+    this.http.get<any>('https://localhost:7221/api/User/current-user-info', { headers }).subscribe(
+      (response) => {
+        console.log("Renose", response);
+        this.user = response;  // Assuming the backend returns user details
       },
-      error: (err) => {
-        console.error('Error loading user info:', err);
+      (error) => {
+        console.error('Error loading user profile:', error);
       }
-    });
+    );
   }
 }

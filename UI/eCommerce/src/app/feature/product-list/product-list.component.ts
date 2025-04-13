@@ -151,19 +151,9 @@ nextImage(): void {
     return this.modalProduct?.images[curentIndeximg] ?? "";
   }
   
-  // addToBucket(product: any): void {
-  //   let bucket = JSON.parse(localStorage.getItem('bucket') || '[]');
-  //   const index = bucket.findIndex((item: any) => item.product.id === product.id);
-  
-  //   if (index >= 0) {
-  //     bucket[index].quantity++;
-  //   } else {
-  //     bucket.push({ product, quantity: 1 });
-  //   }
-  
-  //   localStorage.setItem('bucket', JSON.stringify(bucket));
-  //   alert(`${product.title} added to your bucket!`);
-  // }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('access_token');
+  }
 
   showToast = false;
 toastMessage = '';

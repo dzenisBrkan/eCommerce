@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { Observable } from 'rxjs';
 export class UserService {
   private apiUrl = 'https://localhost:7221/api/User';
 
+  private token = localStorage.getItem('access_token'); // Get token from localStorage
+  private headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    
   constructor(private http: HttpClient) {}
 
   registerUser(registerData: any): Observable<any> {
