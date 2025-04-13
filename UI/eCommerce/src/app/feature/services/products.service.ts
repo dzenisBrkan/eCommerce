@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ProductResponse } from '../models/products-response.model';
+import { Product, ProductResponse } from '../models/products-response.model';
+import { ProductDetails } from '../models/products-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,10 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, productsPerPage: number): Observable<ProductResponse> {
+  getProducts(page: number, productsPerPage: number, sortBy: string, orderBy: string): Observable<ProductResponse> {
     // return this.http.get<ProductResponse>(this.apiUrl);
-    console.log("Page", page);
-    console.log("productsPerPage", productsPerPage);
     const skip = (page - 1) * productsPerPage;
-    const url = `${this.apiUrl}?productsPerPage=${productsPerPage}&page=${page}`;
+    const url = `${this.apiUrl}?productsPerPage=${productsPerPage}&page=${page}&sortBy=${sortBy}&orderBy=${orderBy}`;
 
     return this.http.get<ProductResponse>(url);
   }
@@ -26,4 +25,8 @@ export class ProductService {
     const url = `${this.apiUrl}/search?q=${query}`;
     return this.http.get<ProductResponse>(url);
   }  
+
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
 }

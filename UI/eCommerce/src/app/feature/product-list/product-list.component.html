@@ -12,44 +12,83 @@
     />
   </div>
 
+    <!-- Sort Dropdown -->
+    <div class="mb-3">
+      <select class="form-control" [(ngModel)]="selectedSort" (change)="sortProducts()">
+        <option value="title-asc">Sort by Title (A-Z)</option>
+        <option value="title-desc">Sort by Title (Z-A)</option>
+        <option value="price-asc">Sort by Price (Low to High)</option>
+        <option value="price-desc">Sort by Price (High to Low)</option>
+      </select>
+    </div>
+
   <!-- Loading Indicator -->
   <div *ngIf="loading">Loading...</div>
 
-  <!-- Product Table -->
-  <div *ngIf="!loading">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Category</th>
-          <th>Rating</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.id }}</td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.price | currency }}</td>
-          <td>{{ product.category }}</td>
-          <td>{{ product.rating }}</td>
-          <td><img [src]="product.images[0]" alt="product image" width="50" height="50"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Pagination Controls -->
-    <div class="pagination d-flex justify-content-center align-items-center gap-3">
-      <button class="btn btn-secondary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">
-        Previous
-      </button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button class="btn btn-secondary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">
-        Next
-      </button>
+  <!-- Product Cards -->
+  <div *ngIf="!loading" class="row">
+    <div *ngFor="let product of products" class="col-12 col-md-4 mb-4">
+      <div class="card" (click)="openProductModal(product.id, productModal)">
+        <img [src]="product.images[0]" alt="product image" class="card-img-top product-image" />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">{{ product.description | slice:0:100 }}...</p>
+          <p><strong>Price:</strong> {{ product.price | currency }}</p>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination d-flex justify-content-center align-items-center gap-3">
+    <button class="btn btn-secondary" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage <= 1">
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-secondary" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages">
+      Next
+    </button>
+  </div>
+
+  <ng-template #productModal let-modal="modal">
+    <div class="modal-header">
+      <h5 class="modal-title">{{ modalProduct?.title }}</h5>
+      <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="image-gallery">
+        <img [src]="getImage(currentImageIndex)" alt="Product image" class="img-fluid mb-3" width="300" />
+      </div>
+      
+      <div class="image-navigation d-flex justify-content-center align-items-center">
+        <button 
+          (click)="previousImage()" 
+          [disabled]="currentImageIndex === 0" 
+          class="btn btn-primary me-2"
+          [ngClass]="{ 'disabled': currentImageIndex === 0 }">
+          <i class="bi bi-arrow-left-circle"></i> Previous
+        </button>
+        <button 
+          (click)="nextImage()" 
+          [disabled]="currentImageIndex === imageLenght() - 1" 
+          class="btn btn-primary ms-2"
+          [ngClass]="{ 'disabled': currentImageIndex === imageLenght() - 1 }">
+          Next <i class="bi bi-arrow-right-circle"></i>
+        </button>
+      </div>
+  
+      <hr>
+      <p><strong>Description:</strong> {{ modalProduct?.description }}</p>
+      <p><strong>Price:</strong> {{ modalProduct?.price | currency }}</p>
+      <p><strong>Rating:</strong> {{ modalProduct?.rating }} ⭐</p>
+      <p><strong>Category:</strong> {{ modalProduct?.category }}</p>
+      <p><strong>Stock:</strong> {{ modalProduct?.stock }}</p>
+      <p><strong>Brand:</strong> {{ modalProduct?.brand }}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+  </ng-template>
+  
+  
 </div>
-<br><br>

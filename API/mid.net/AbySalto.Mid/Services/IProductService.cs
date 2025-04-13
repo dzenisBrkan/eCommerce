@@ -4,9 +4,9 @@ namespace AbySalto.Mid.WebApi.Services;
 
 public interface IProductService
 {
-    Task<JsonResponse> GetAllProducts(int page = 1, int productsPerPage = 10);
+    Task<JsonResponse> GetAllProducts(int Page, int productsPerPage, string sortBy, string orderBy);
 
-    Task<Product> GetProductById(int id);
+    Task<ProductDetails> GetProductById(int id);
    
     Task<JsonResponse> SearchProducts(string query);
 }

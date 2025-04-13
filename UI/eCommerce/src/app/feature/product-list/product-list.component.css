@@ -46,3 +46,13 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.product-image {
+  height: 200px; 
+  object-fit: scale-down;
+  object-position: center; 
+}
+
+.image-gallery {
+  text-align: center;
+}

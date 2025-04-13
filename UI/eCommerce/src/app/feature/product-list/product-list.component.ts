@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from '../services/products.service';
 import { Product, ProductResponse } from '../models/products-response.model';
+import { Router } from '@angular/router';
+import { ProductDetails } from '../models/products-details.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-product-list',
@@ -18,14 +23,24 @@ export class ProductListComponent implements OnInit {
 
   searchQuery: string = '';
 
-  constructor(private productService: ProductService) { }
+  modalProduct: Product | null = null;
+
+  selectedSort: string = 'title-asc';
+
+  currentImageIndex: number = 0;
+
+  constructor(
+     private productService: ProductService,
+     private router: Router,
+     private modalService: NgbModal
+    ) { }
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.productService.getProducts(this.currentPage, this.productsPerPage).subscribe({
+  loadProducts(sortBy: string = "title", orderBy: string = "asc") {
+    this.productService.getProducts(this.currentPage, this.productsPerPage, sortBy, orderBy).subscribe({
       next: (data: ProductResponse) => {
         this.products = data.products;
         this.totalProducts = data.total;
@@ -37,6 +52,25 @@ export class ProductListComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+   sortProducts(): void {
+    switch (this.selectedSort) {
+      case 'title-asc':
+        this.loadProducts("title", "asc");
+        break;
+      case 'title-desc':
+        this.loadProducts("title", "desc");
+        break;
+      case 'price-asc':
+        this.loadProducts("price", "asc");
+        break;
+      case 'price-desc':
+        this.loadProducts("price", "desc");
+        break;
+      default:
+        break;
+    }
   }
 
   currentProducts(): Product[] {
@@ -65,6 +99,56 @@ export class ProductListComponent implements OnInit {
         this.loading = false;
       }
     });
-} 
+  } 
+  
+  openProductModal(productId: number, productModal: TemplateRef<any>): void {
+    // Fetch product details based on the productId
+    this.productService.getProductById(productId).subscribe({
+      next: (product) => {
+        this.modalProduct = product; // Store the product details to display in the modal
+        this.currentImageIndex = 0; 
+        // Open the modal and handle the result (closed or dismissed)
+        const modalRef = this.modalService.open(productModal, { size: 'lg' });
+  
+        modalRef.result.then(
+          (result) => {
+            console.log(`Modal closed with: ${result}`);
+          },
+          (reason) => {
+            console.log(`Modal dismissed with: ${reason}`);
+          }
+        );
+      },
+      error: (err) => {
+        console.error('Error fetching product:', err);
+      }
+    });
+  }
 
+ // Move to the previous image
+ previousImage(): void {
+  if (this.currentImageIndex > 0) {
+    this.currentImageIndex--;
+  }
+}
+
+// Move to the next image
+nextImage(): void {
+  if (this.modalProduct != null && this.currentImageIndex < this.modalProduct?.images.length - 1) {
+    this.currentImageIndex++;
+  }
+}
+
+  closeModal(): void { 
+    const modalRef = this.modalService.dismissAll(); 
+  }
+
+  imageLenght(): number{
+    return this.modalProduct?.images.length ?? 0;
+  }
+
+  getImage(curentIndeximg: number): string {
+    return this.modalProduct?.images[curentIndeximg] ?? "";
+  }
+  
 }

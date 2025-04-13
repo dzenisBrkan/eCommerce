@@ -14,10 +14,10 @@ public class ProductService : IProductService
         //_context = context;
     }
 
-    public async Task<JsonResponse> GetAllProducts(int Page, int productsPerPage)
+    public async Task<JsonResponse> GetAllProducts(int Page, int productsPerPage, string sortBy, string orderBy)
     {
         int skip = (Page - 1) * productsPerPage;
-        string url = $"https://dummyjson.com/products?skip={skip}&limit={productsPerPage}";
+        string url = $"https://dummyjson.com/products?skip={skip}&limit={productsPerPage}&sortBy={sortBy}&&order={orderBy}";
         var response = await _httpClient.GetAsync(url);
 
         if (response.IsSuccessStatusCode)
@@ -30,14 +30,14 @@ public class ProductService : IProductService
         return new JsonResponse();
     }
 
-    public async Task<Product> GetProductById(int id)
+    public async Task<ProductDetails> GetProductById(int id)
     {
         var response = await _httpClient.GetAsync($"https://dummyjson.com/products/{id}");
 
         if (response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<Product>(jsonString);
+            var product = JsonConvert.DeserializeObject<ProductDetails>(jsonString);
             return product;
         }
 
