@@ -53,19 +53,6 @@
   <div *ngIf="loading">Loading...</div>
 
   <!-- Product Cards -->
-  <!-- <div *ngIf="!loading" class="row">
-    <div *ngFor="let product of products" class="col-12 col-md-4 mb-4">
-      <div class="card" (click)="openProductModal(product.id, productModal)">
-        <img [src]="product.images[0]" alt="product image" class="card-img-top product-image" />
-        <div class="card-body">
-          <h5 class="card-title">{{ product.title }}</h5>
-          <p class="card-text">{{ product.description | slice:0:100 }}...</p>
-          <p><strong>Price:</strong> {{ product.price | currency }}</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!-- Product Cards -->
 <div *ngIf="!loading" class="row">
   <div *ngFor="let product of products" class="col-12 col-md-4 mb-4">
     <div class="card h-100">

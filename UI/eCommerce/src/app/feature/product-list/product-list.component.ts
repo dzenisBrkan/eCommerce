@@ -2,9 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from '../services/products.service';
 import { Product, ProductResponse } from '../models/products-response.model';
 import { Router } from '@angular/router';
-import { ProductDetails } from '../models/products-details.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -170,7 +168,6 @@ addToBucket(product: any): void {
 
   localStorage.setItem('bucket', JSON.stringify(bucket));
 
-  // Show toast
   this.toastMessage = `${product.title} added to your bucket!`;
   this.showToast = true;
 

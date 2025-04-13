@@ -24,7 +24,6 @@ import { UserRegistrationComponent } from './feature/user-registration/user-regi
   imports: [
     BrowserModule,
     FormsModule,
-    // HttpClientModule,
     AppRoutingModule,
     NgbModalModule,
     ReactiveFormsModule,

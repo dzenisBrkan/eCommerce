@@ -14,15 +14,13 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    const isAuthenticated = localStorage.getItem('access_token');  // Example: Check for token in localStorage
+    const isAuthenticated = localStorage.getItem('access_token');  
     
     if (isAuthenticated) {
-      // If the user is authenticated, grant access
-      return of(true); // Return Observable<boolean> type
+      return of(true); 
     } else {
-      // If the user is not authenticated, redirect to login and deny access
       this.router.navigate(['/login']);
-      return of(false); // Return Observable<boolean> type
+      return of(false); 
     }
   }
 }

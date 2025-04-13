@@ -14,14 +14,14 @@ export class ProfileComponent implements OnInit {
     surname: '',
     email: '',
     userName: '',
-    // dob: '',
-    // location: '',
-    // phone: '',
-    // address: '',
+    dateOfBirth: Date,
+    location: '',
+    phoneNumber: '',
+    address: '',
   };
 
   constructor(
-    private userService: UserService,  // Assuming you have a service to get user data
+    private userService: UserService,
     private http: HttpClient
   ) {}
 
@@ -30,19 +30,18 @@ export class ProfileComponent implements OnInit {
   }
 
   loadUserProfile() {
-    const token = localStorage.getItem('access_token'); // Get token from localStorage
+    const token = localStorage.getItem('access_token');
 
     if (!token) {
       console.error('User not authenticated.');
       return;
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     this.http.get<any>('https://localhost:7221/api/User/current-user-info', { headers }).subscribe(
       (response) => {
         console.log("Renose", response);
-        this.user = response;  // Assuming the backend returns user details
+        this.user = response;
       },
       (error) => {
         console.error('Error loading user profile:', error);

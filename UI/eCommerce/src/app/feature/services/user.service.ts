@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   private apiUrl = 'https://localhost:7221/api/User';
 
-  private token = localStorage.getItem('access_token'); // Get token from localStorage
+  private token = localStorage.getItem('access_token');
   private headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     
   constructor(private http: HttpClient) {}

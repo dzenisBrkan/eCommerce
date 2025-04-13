@@ -14,7 +14,6 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getProducts(page: number, productsPerPage: number, sortBy: string, orderBy: string): Observable<ProductResponse> {
-    // return this.http.get<ProductResponse>(this.apiUrl);
     const skip = (page - 1) * productsPerPage;
     const url = `${this.apiUrl}?productsPerPage=${productsPerPage}&page=${page}&sortBy=${sortBy}&orderBy=${orderBy}`;
 

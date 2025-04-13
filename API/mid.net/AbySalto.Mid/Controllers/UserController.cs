@@ -132,7 +132,11 @@ namespace AbySalto.Mid.WebApi.Controllers
                 user.Name,
                 user.Surname,
                 user.Email,
-                user.UserName
+                user.UserName,
+                user.DateOfBirth,
+                user.Location,
+                user.PhoneNumber,
+                user.Address
             });
         }
 
