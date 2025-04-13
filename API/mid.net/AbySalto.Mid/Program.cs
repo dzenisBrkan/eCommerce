@@ -1,6 +1,8 @@
 using AbySalto.Mid.Application;
+using AbySalto.Mid.Domain.Data;
 using AbySalto.Mid.Infrastructure;
 using AbySalto.Mid.WebApi.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid
 {
@@ -28,6 +30,11 @@ namespace AbySalto.Mid
                 options.AddPolicy("AllowAllOrigins", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
+            // Register the DbContext with the connection string from appsettings.json
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
