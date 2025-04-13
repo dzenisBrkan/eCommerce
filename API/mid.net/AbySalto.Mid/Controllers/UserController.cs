@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
 using AbySalto.Mid.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using AbySalto.Mid.WebApi.Models.UserDto;
 using AbySalto.Mid.WebApi.Services.AuthService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid.WebApi.Controllers
 {
@@ -88,35 +88,6 @@ namespace AbySalto.Mid.WebApi.Controllers
                 AccessToken = await _tokenService.GenerateJwtToken(applicationUser),
             };
         }
-
-        //[Authorize]
-        //[HttpGet("current-user-info")]
-        //public async Task<IActionResult> GetCurrentUserInfo()
-        //{
-        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        //    if (userId == null)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var applicationUser = await _userManager.FindByIdAsync(userId);
-
-        //    if (applicationUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var currentUserDto = new
-        //    {
-        //        applicationUser.Name,
-        //        applicationUser.Surname,
-        //        applicationUser.Email,
-        //        applicationUser.UserName,
-        //    };
-
-        //    return Ok(currentUserDto);
-        //}
 
         [Authorize]
         [HttpGet("current-user-info")]

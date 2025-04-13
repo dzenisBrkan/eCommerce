@@ -8,7 +8,6 @@ public class Review
     public DateTime Date { get; set; }
     public string ReviewerName { get; set; }
     public string ReviewerEmail { get; set; }
-
     public int ProductId { get; set; }
     public Product Product { get; set; }
 }
