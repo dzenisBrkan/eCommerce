@@ -51,7 +51,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginData).pipe(first()).subscribe(
       (response) => {
         localStorage.setItem('access_token', response.accessToken);
-        this.router.navigate(['/home']);
+        localStorage.setItem('User', JSON.stringify(response))
+        this.router.navigate(['/home']).then(() => {
+          window.location.reload();
+        });
+
+        console.log("Resposne", response);
       },
       (error) => {
         // On error (wrong credentials), set error message

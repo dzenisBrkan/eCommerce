@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,10 +7,19 @@ import { Router } from '@angular/router';
   standalone: false,
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'eCommerce';
+  User: any;
   
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    const userJson = localStorage.getItem('User');
+    if (userJson) {
+    this.User = JSON.parse(userJson);
+    }
+    
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');
@@ -18,6 +27,10 @@ export class AppComponent {
 
   logout() {
     localStorage.removeItem('access_token');
-    this.router.navigate(['/login']);
+    localStorage.removeItem('User');
+
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 }

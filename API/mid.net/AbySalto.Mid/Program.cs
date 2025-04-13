@@ -1,11 +1,14 @@
+using System.Text;
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Domain.Data;
 using AbySalto.Mid.Domain.Entities;
 using AbySalto.Mid.Infrastructure;
 using AbySalto.Mid.WebApi.Services.AuthService;
 using AbySalto.Mid.WebApi.Services.ProductItemService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AbySalto.Mid
 {
@@ -57,6 +60,34 @@ namespace AbySalto.Mid
             //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             //);
 
+
+            //// JWT config BEFORE builder.Build()
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+
+            //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            //        ValidAudience = builder.Configuration["Jwt:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            //            builder.Configuration["Jwt:Key"]!
+            //        )),
+
+            //        ClockSkew = TimeSpan.Zero
+            //    };
+            //});
+
+
+
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
 
@@ -72,6 +103,8 @@ namespace AbySalto.Mid
                     options.RoutePrefix = string.Empty;
                 });
             }
+
+          
 
             // Use CORS middleware
             app.UseCors("AllowAllOrigins");

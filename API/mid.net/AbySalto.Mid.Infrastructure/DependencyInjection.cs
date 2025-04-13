@@ -14,6 +14,10 @@ namespace AbySalto.Mid.Infrastructure
     {
         public static IServiceCollection AddInfrastructur(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDatabase(configuration)
+              .AddIdentityServices(configuration);
+
+
             return services;
         }
 

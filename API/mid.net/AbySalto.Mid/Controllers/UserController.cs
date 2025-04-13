@@ -90,8 +90,8 @@ namespace AbySalto.Mid.WebApi.Controllers
             };
         }
 
-        [HttpGet("current-user-info")]
         [Authorize]
+        [HttpGet("current-user-info")]
         public async Task<IActionResult> GetCurrentUserInfo()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
