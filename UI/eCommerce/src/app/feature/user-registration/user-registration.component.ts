@@ -37,29 +37,62 @@ export class UserRegistrationComponent {
     return this.registrationForm.controls;
   }
 
-  onSubmit(): void {
-    if (this.registrationForm.invalid) {
-      return;
-    }
+  // onSubmit(): void {
+  //   if (this.registrationForm.invalid) {
+  //     return;
+  //   }
   
-    const registerData = this.registrationForm.value;
+  //   const registerData = this.registrationForm.value;
     
-    this.userService.registerUser(registerData).subscribe(
-      (response) => {
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Registration error:', error);
+  //   this.userService.registerUser(registerData).subscribe(
+  //     (response) => {
+  //       this.router.navigate(['/login']);
+  //     },
+  //     (error) => {
+  //       console.error('Registration error:', error);
     
-        if (Array.isArray(error.error)) {
-          this.errorMessage = error.error.join('\n');
-        } else if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
-        } else {
-          this.errorMessage = 'Registration failed. Please try again.';
-        }
-      }
-    );
+  //       if (Array.isArray(error.error)) {
+  //         this.errorMessage = error.error.join('\n');
+  //       } else if (typeof error.error === 'string') {
+  //         this.errorMessage = error.error;
+  //       } else {
+  //         this.errorMessage = 'Registration failed. Please try again.';
+  //       }
+  //     }
+  //   );
+  // }
+
+
+  successMessage: string | null = null;
+
+onSubmit(): void {
+  this.submitted = true;
+
+  if (this.registrationForm.invalid) {
+    return;
   }
+
+  const registerData = this.registrationForm.value;
+
+  this.userService.registerUser(registerData).subscribe(
+    (response) => {
+      this.successMessage = 'Registration successful! Redirecting to login...';
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 2000); // 2 seconds delay before redirect
+    },
+    (error) => {
+      console.error('Registration error:', error);
+
+      if (Array.isArray(error.error)) {
+        this.errorMessage = error.error.join('\n');
+      } else if (typeof error.error === 'string') {
+        this.errorMessage = error.error;
+      } else {
+        this.errorMessage = 'Registration failed. Please try again.';
+      }
+    }
+  );
+}
   
 }
