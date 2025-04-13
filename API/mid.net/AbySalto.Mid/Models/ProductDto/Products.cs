@@ -1,4 +1,4 @@
-﻿namespace AbySalto.Mid.WebApi.Models;
+﻿namespace AbySalto.Mid.WebApi.Models.ProductDto;
 
 public class Product
 {

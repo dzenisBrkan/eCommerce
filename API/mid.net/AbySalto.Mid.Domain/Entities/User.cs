@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace AbySalto.Mid.Domain.Entities;
 
-public class User
+public class User : IdentityUser<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -14,4 +13,6 @@ public class User
     public string Location { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
+
+    public ICollection<UserRole> UserRoles { get; set; }
 }

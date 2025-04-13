@@ -1,5 +1,5 @@
-﻿using AbySalto.Mid.WebApi.Models;
-using AbySalto.Mid.WebApi.Services;
+﻿using AbySalto.Mid.WebApi.Models.ProductDto;
+using AbySalto.Mid.WebApi.Services.ProductItemService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

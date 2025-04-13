@@ -1,7 +1,7 @@
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Domain.Data;
 using AbySalto.Mid.Infrastructure;
-using AbySalto.Mid.WebApi.Services;
+using AbySalto.Mid.WebApi.Services.ProductItemService;
 using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid

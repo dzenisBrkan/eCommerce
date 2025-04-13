@@ -1,7 +1,7 @@
-﻿using AbySalto.Mid.WebApi.Models;
+﻿using AbySalto.Mid.WebApi.Models.ProductDto;
 using Newtonsoft.Json;
 using System.Text.Json;
-namespace AbySalto.Mid.WebApi.Services;
+namespace AbySalto.Mid.WebApi.Services.ProductItemService;
 
 public class ProductService : IProductService
 {
@@ -30,14 +30,14 @@ public class ProductService : IProductService
         return new JsonResponse();
     }
 
-    public async Task<ProductDetails> GetProductById(int id)
+    public async Task<Product> GetProductById(int id)
     {
         var response = await _httpClient.GetAsync($"https://dummyjson.com/products/{id}");
 
         if (response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<ProductDetails>(jsonString);
+            var product = JsonConvert.DeserializeObject<Product>(jsonString);
             return product;
         }
 
