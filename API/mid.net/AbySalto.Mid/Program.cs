@@ -2,6 +2,7 @@ using System.Text;
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Domain.Data;
 using AbySalto.Mid.Domain.Entities;
+using AbySalto.Mid.Domain.Seed;
 using AbySalto.Mid.Infrastructure;
 using AbySalto.Mid.WebApi.Services.AuthService;
 using AbySalto.Mid.WebApi.Services.ProductItemService;
