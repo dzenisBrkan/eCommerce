@@ -54,8 +54,13 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       (error) => {
+        // On error (wrong credentials), set error message
         console.error('Login error:', error);
-        this.errorMessage = error.error;
+        if (error.status === 401) {
+          this.errorMessage = 'Invalid username or password. Please try again.';
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again later.';
+        }
       }
     );
   }

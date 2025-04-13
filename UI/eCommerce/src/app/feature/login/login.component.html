@@ -7,6 +7,11 @@
     <!-- Login Card -->
     <div class="card shadow-lg p-4 mb-4" style="width: 100%; max-width: 400px;">
       <h3 class="text-center mb-4">Login</h3>
+
+       <!-- Show error message if login failed -->
+       <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+        {{ errorMessage }}
+      </div>
   
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <div class="mb-3">
