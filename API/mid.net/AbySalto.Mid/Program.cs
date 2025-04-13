@@ -1,7 +1,10 @@
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Domain.Data;
+using AbySalto.Mid.Domain.Entities;
 using AbySalto.Mid.Infrastructure;
+using AbySalto.Mid.WebApi.Services.AuthService;
 using AbySalto.Mid.WebApi.Services.ProductItemService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid
@@ -24,6 +27,24 @@ namespace AbySalto.Mid
             // Register IProductService and ProductService for DI
             builder.Services.AddScoped<IProductService, ProductService>();
 
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            builder.Services.AddIdentity<User, Role>(options => {
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
+            //builder.Services.AddIdentity<User, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+            //builder.Services.AddScoped<ITokenService, TokenService>();
+
             // Register CORS policy
             builder.Services.AddCors(options =>
             {
@@ -31,10 +52,10 @@ namespace AbySalto.Mid
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
-            // Register the DbContext with the connection string from appsettings.json
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-            );
+            //// Register the DbContext with the connection string from appsettings.json
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            //);
 
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();

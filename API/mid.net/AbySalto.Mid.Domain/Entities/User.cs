@@ -4,7 +4,7 @@ namespace AbySalto.Mid.Domain.Entities;
 
 public class User : IdentityUser<int>
 {
-    public int Id { get; set; }
+    //public int Id { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }

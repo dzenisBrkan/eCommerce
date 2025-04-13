@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { first } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -8,30 +10,53 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: UserService,
+    private router: Router
+  ) {
+    this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
-  onSubmit(): void {
+  ngOnInit() {
+    
+  }
+
+  // Getter for easy access to form fields using bracket notation
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  // On form submission
+  onSubmit() {
     this.submitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
 
-    const { email, password } = this.loginForm.value;
-    console.log('Logging in with:', email, password);
+    const loginData = {
+      Username: this.f['email'].value,
+      Password: this.f['password'].value,
+    };
 
-    // TODO: call backend API for login here
-  }
-
-  get f() {
-    return this.loginForm.controls;
+    this.authService.login(loginData).pipe(first()).subscribe(
+      (response) => {
+        localStorage.setItem('access_token', response.accessToken);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('Login error:', error);
+        this.errorMessage = error.error;
+      }
+    );
   }
 }

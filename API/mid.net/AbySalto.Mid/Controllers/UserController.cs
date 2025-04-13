@@ -27,27 +27,35 @@ namespace AbySalto.Mid.WebApi.Controllers
         public async Task<ActionResult<User>> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.Email))
-                return BadRequest("Username is taken");
+                return BadRequest(new List<string> { "Email is already taken." });
 
             var applicationUser = new User
             {
-                UserName = registerDto.Name,
+                Name = registerDto.Name,
+                UserName = registerDto.Email,
                 Surname = registerDto.Surname,
+                Password = registerDto.Password,
                 Email = registerDto.Email,
                 Location = registerDto.Location,
                 PhoneNumber = registerDto.PhoneNumber,
-                Address = registerDto.Adress,
+                Address = registerDto.Address,
             };
 
             var result = await _userManager.CreateAsync(applicationUser, registerDto.Password);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            {
+                var errors = result.Errors.Select(e => e.Description + '\n').ToList();
+                return BadRequest(errors); 
+            }
 
             var roleResult = await _userManager.AddToRoleAsync(applicationUser, "User");
 
             if (!roleResult.Succeeded)
-                return BadRequest(roleResult.Errors);
+            {
+                var errors = roleResult.Errors.Select(e => e.Description).ToList();
+                return BadRequest(errors);
+            }
 
             return Ok(new RegisterResponseDto
             {
