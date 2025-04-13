@@ -16,8 +16,7 @@ namespace AbySalto.Mid.WebApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
 
-        public UserController(UserManager<User> userManager, ITokenService tokenService
-            )
+        public UserController(UserManager<User> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -90,33 +89,51 @@ namespace AbySalto.Mid.WebApi.Controllers
             };
         }
 
+        //[Authorize]
+        //[HttpGet("current-user-info")]
+        //public async Task<IActionResult> GetCurrentUserInfo()
+        //{
+        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        //    if (userId == null)
+        //    {
+        //        return Unauthorized();
+        //    }
+
+        //    var applicationUser = await _userManager.FindByIdAsync(userId);
+
+        //    if (applicationUser == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var currentUserDto = new
+        //    {
+        //        applicationUser.Name,
+        //        applicationUser.Surname,
+        //        applicationUser.Email,
+        //        applicationUser.UserName,
+        //    };
+
+        //    return Ok(currentUserDto);
+        //}
+
         [Authorize]
         [HttpGet("current-user-info")]
         public async Task<IActionResult> GetCurrentUserInfo()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(userId);
 
-            if (userId == null)
+            if (user == null) return NotFound();
+
+            return Ok(new
             {
-                return Unauthorized();
-            }
-
-            var applicationUser = await _userManager.FindByIdAsync(userId);
-
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
-
-            var currentUserDto = new
-            {
-                applicationUser.Name,
-                applicationUser.Surname,
-                applicationUser.Email,
-                applicationUser.UserName,
-            };
-
-            return Ok(currentUserDto);
+                user.Name,
+                user.Surname,
+                user.Email,
+                user.UserName
+            });
         }
 
         private async Task<bool> UserExists(string username)

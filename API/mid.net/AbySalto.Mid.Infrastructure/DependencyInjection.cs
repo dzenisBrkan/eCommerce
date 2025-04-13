@@ -14,8 +14,8 @@ namespace AbySalto.Mid.Infrastructure
     {
         public static IServiceCollection AddInfrastructur(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabase(configuration)
-              .AddIdentityServices(configuration);
+            //services.AddDatabase(configuration);
+              //.AddIdentityServices(configuration);
 
 
             return services;
@@ -31,39 +31,39 @@ namespace AbySalto.Mid.Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddIdentityCore<User>(opt =>
-            {
-                //opt.User.RequireUniqueEmail = true;
-                //opt.SignIn.RequireConfirmedAccount = false;
-                //opt.Password.RequireDigit = false;
-                //opt.Password.RequiredLength = 6;
-                opt.Password.RequireNonAlphanumeric = false;
-                //opt.Password.RequireUppercase = false;
-            })
-            .AddRoles<Role>()
-                .AddRoleManager<RoleManager<Role>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+        //private static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+        //{
+        //    services.AddIdentityCore<User>(opt =>
+        //    {
+        //        //opt.User.RequireUniqueEmail = true;
+        //        //opt.SignIn.RequireConfirmedAccount = false;
+        //        //opt.Password.RequireDigit = false;
+        //        //opt.Password.RequiredLength = 6;
+        //        opt.Password.RequireNonAlphanumeric = false;
+        //        //opt.Password.RequireUppercase = false;
+        //    })
+        //    .AddRoles<Role>()
+        //        .AddRoleManager<RoleManager<Role>>()
+        //        .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
+        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //        .AddJwtBearer(options =>
+        //        {
+        //            options.TokenValidationParameters = new TokenValidationParameters
+        //            {
+        //                ValidateIssuerSigningKey = true,
+        //                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"])),
+        //                ValidateIssuer = false,
+        //                ValidateAudience = false
+        //            };
+        //        });
 
-            services.AddAuthorization(opt =>
-            {
-                opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
-            });
+        //    services.AddAuthorization(opt =>
+        //    {
+        //        opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+        //    });
 
-            return services;
-        }
+        //    return services;
+        //}
     }
 }

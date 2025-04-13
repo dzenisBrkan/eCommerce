@@ -13,11 +13,11 @@ export class ProfileComponent implements OnInit {
     name: '',
     surname: '',
     email: '',
-    password: '',
-    dob: '',
-    location: '',
-    phone: '',
-    address: '',
+    userName: '',
+    // dob: '',
+    // location: '',
+    // phone: '',
+    // address: '',
   };
 
   constructor(
@@ -38,8 +38,6 @@ export class ProfileComponent implements OnInit {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-      // this.userService.getCurrentUserInfo().subscribe(
     
     this.http.get<any>('https://localhost:7221/api/User/current-user-info', { headers }).subscribe(
       (response) => {
