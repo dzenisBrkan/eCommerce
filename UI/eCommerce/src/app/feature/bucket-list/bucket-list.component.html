@@ -1,1 +1,37 @@
-<p>bucket-list works!</p>
+<div class="container mt-5">
+    <h2>Your Shopping Bucket</h2>
+  
+    <div *ngIf="cartItems.length === 0" class="alert alert-info mt-4">
+      Your bucket is empty.
+    </div>
+  
+    <div *ngIf="cartItems.length > 0">
+      <div *ngFor="let item of cartItems; let i = index" class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-3">
+            <img [src]="item.product.images[0]" class="img-fluid rounded-start" alt="{{ item.product.title }}">
+          </div>
+          <div class="col-md-9">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.product.title }}</h5>
+              <p class="card-text">{{ item.product.description | slice: 0:100 }}...</p>
+              <p class="card-text"><strong>Price:</strong> {{ item.product.price | currency }}</p>
+              <div class="input-group mb-3" style="max-width: 200px;">
+                <button class="btn btn-outline-secondary" type="button" (click)="decreaseQuantity(i)">-</button>
+                <input type="text" class="form-control text-center" [value]="item.quantity" readonly>
+                <button class="btn btn-outline-secondary" type="button" (click)="increaseQuantity(i)">+</button>
+              </div>
+              <button class="btn btn-danger btn-sm" (click)="removeItem(i)">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="text-end">
+        <h4>Total: {{ getTotal() | currency }}</h4>
+        <button class="btn btn-success mt-2">Checkout</button>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  
