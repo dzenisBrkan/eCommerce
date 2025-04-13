@@ -27,6 +27,8 @@ namespace AbySalto.Mid
 
             builder.Services.AddScoped<IProductService, ProductService>();
 
+            builder.Services.AddMemoryCache();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
