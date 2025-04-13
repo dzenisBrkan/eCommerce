@@ -1,0 +1,65 @@
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100">
+    <!-- 🛒 E-Commerce Title -->
+    <div class="text-center mb-4">
+      <h4 class="fw-bold">🛒 E-Commerce</h4>
+    </div>
+  
+    <div class="card shadow rounded-4 p-4 w-100" style="max-width: 700px;">
+      <h3 class="mb-4 text-center">User Registration</h3>
+  
+      <!-- User Image -->
+      <div class="text-center mb-4">
+        <img 
+          src="https://ui-avatars.com/api/?name=User+Avatar&background=0D8ABC&color=fff&size=100" 
+          alt="User Avatar" 
+          class="rounded-circle shadow" />
+      </div>
+  
+      <form>
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <input type="Name" class="form-control" id="Name" [(ngModel)]="user.name" name="Name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Surname" class="form-label">Surname</label>
+            <input type="Surname" class="form-control" id="Surname" [(ngModel)]="user.surname" name="Surname" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="dob" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="dob" [(ngModel)]="user.dob" name="dob" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input type="text" class="form-control" id="location" [(ngModel)]="user.location" name="location" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="tel" class="form-control" id="phone" [(ngModel)]="user.phone" name="phone" />
+        </div>
+  
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <textarea class="form-control" id="address" rows="3" [(ngModel)]="user.address" name="address"></textarea>
+        </div>
+  
+        <div class="text-end">
+          <button type="button" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
