@@ -3,6 +3,7 @@ import { ProductService } from '../services/products.service';
 import { Product, ProductResponse } from '../models/products-response.model';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -26,11 +27,13 @@ export class ProductListComponent implements OnInit {
   selectedSort: string = 'title-asc';
 
   currentImageIndex: number = 0;
+  // http: any;
 
   constructor(
      private productService: ProductService,
      private router: Router,
-     private modalService: NgbModal
+     private modalService: NgbModal,
+     private http: HttpClient
     ) { }
 
   ngOnInit(): void {
@@ -44,6 +47,8 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.total;
         this.totalPages = Math.ceil(this.totalProducts / this.productsPerPage);
         this.loading = false;
+
+        console.log("Products", this.products);
       },
       error: (err) => {
         console.error('Error fetching products:', err);
@@ -177,5 +182,35 @@ addToBucket(product: any): void {
   }, 3000);
 }
 
-  
+addToFavorites(id: number): void {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    console.error('User not authenticated.');
+    this.toastMessage = 'Please log in to add to favorites.';
+    this.showToast = true;
+    return;
+  }
+
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.http.post('https://localhost:7221/api/Favorite/add-favorite/' + id, null, {
+    headers,
+    responseType: 'text'
+  }).subscribe({
+    next: (res: string) => {
+      const product = this.products.find(p => p.id === id);
+      if (product) {
+        product.isFavorite = !product.isFavorite;
+      }
+
+      this.toastMessage = res;
+      this.showToast = true;
+    },
+    error: (err) => {
+      console.error('Error updating favorites:', err);
+      this.toastMessage = 'Failed to update favorites.';
+      this.showToast = true;
+    }
+  });
+}
 }

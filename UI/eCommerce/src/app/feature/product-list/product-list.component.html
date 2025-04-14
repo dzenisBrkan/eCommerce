@@ -65,11 +65,21 @@
         </div>
         <div class="mt-3">
           <button class="btn btn-primary w-100 mb-2" (click)="openProductModal(product.id, productModal)">
-            View Details
+            View Details 👁️
           </button>
           <ng-container *ngIf="isLoggedIn()">
-            <button class="btn btn-success w-100" (click)="addToBucket(product)">
+            <button class="btn btn-success w-100 mb-2" (click)="addToBucket(product)">
               Add to Bucket 🛒
+            </button>
+          </ng-container>
+          <ng-container *ngIf="isLoggedIn() && !product.isFavorite">
+            <button class="btn btn-info w-100" (click)="addToFavorites(product.id)">
+              Add to Favorites ❤️
+            </button>
+          </ng-container>
+          <ng-container *ngIf="isLoggedIn() && product.isFavorite">
+            <button class="btn btn-danger w-100" (click)="addToFavorites(product.id)">
+              Remove From Favorites
             </button>
           </ng-container>
         </div>

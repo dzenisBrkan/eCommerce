@@ -4,6 +4,7 @@ using AbySalto.Mid.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbySalto.Mid.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250414162031_UpdateTableProduct")]
+    partial class UpdateTableProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -550,7 +553,7 @@ namespace AbySalto.Mid.Domain.Migrations
             modelBuilder.Entity("AbySalto.Mid.Domain.Entities.Favorite", b =>
                 {
                     b.HasOne("AbySalto.Mid.Domain.Entities.Product", "Product")
-                        .WithMany("Favorites")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -723,8 +726,6 @@ namespace AbySalto.Mid.Domain.Migrations
 
             modelBuilder.Entity("AbySalto.Mid.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("Favorites");
-
                     b.Navigation("Images");
 
                     b.Navigation("Reviews");

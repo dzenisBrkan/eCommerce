@@ -5,6 +5,7 @@ using AbySalto.Mid.Domain.Entities;
 using AbySalto.Mid.Domain.Seed;
 using AbySalto.Mid.Infrastructure;
 using AbySalto.Mid.WebApi.Services.AuthService;
+using AbySalto.Mid.WebApi.Services.FavoriteProductService;
 using AbySalto.Mid.WebApi.Services.ProductItemService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +16,7 @@ namespace AbySalto.Mid
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ namespace AbySalto.Mid
                 .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
             builder.Services.AddCors(options =>
             {
@@ -72,6 +74,13 @@ namespace AbySalto.Mid
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+            // Seeding roles
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await RoleSeeder.SeedRolesAsync(services);
+            }
+
 
             if (app.Environment.IsDevelopment())
             {

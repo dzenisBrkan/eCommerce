@@ -1,6 +1,9 @@
-﻿using AbySalto.Mid.WebApi.Models.ProductDto;
+﻿using AbySalto.Mid.Domain.Data;
+using AbySalto.Mid.Domain.Entities;
+using AbySalto.Mid.WebApi.Models.ProductDto;
 using AbySalto.Mid.WebApi.Services.ProductItemService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid.Controllers
 {
@@ -9,10 +12,14 @@ namespace AbySalto.Mid.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ApplicationDbContext _context;
 
-        public ProductController(IProductService productService)
+
+        public ProductController(IProductService productService, ApplicationDbContext context)
         {
             _productService = productService;
+            _context = context;
+
         }
 
         [HttpGet]
@@ -27,6 +34,13 @@ namespace AbySalto.Mid.Controllers
             if (products == null)
             {
                 return NotFound("No products found.");
+            }
+
+            var commonIds = products.Products.Select(p => p.Title).Intersect(_context.Products.Select(p => p.Title)).ToList();
+
+            if (!commonIds.Any())
+            {
+                await _productService.SaveAllProductToDatabase();
             }
 
             return Ok(products);

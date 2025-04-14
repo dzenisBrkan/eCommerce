@@ -28,6 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<
     public DbSet<BucketItem> BucketItems { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
+    public DbSet<Favorite> Favorites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

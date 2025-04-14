@@ -13,7 +13,7 @@ namespace AbySalto.Mid.Domain.Entities
         public float Rating { get; set; }
         public int Stock { get; set; }
 
-        public string Brand { get; set; }
+        public string? Brand { get; set; }
         public string Sku { get; set; }
         public float Weight { get; set; }
 
@@ -30,6 +30,7 @@ namespace AbySalto.Mid.Domain.Entities
 
         public Dimensions Dimensions { get; set; }
         public Meta Meta { get; set; }
+        public List<Favorite> Favorites { get; set; }
     }
 
     [Owned]

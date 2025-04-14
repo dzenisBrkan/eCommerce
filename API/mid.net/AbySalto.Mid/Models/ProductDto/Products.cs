@@ -1,4 +1,6 @@
-﻿namespace AbySalto.Mid.WebApi.Models.ProductDto;
+﻿using AbySalto.Mid.Domain.Entities;
+
+namespace AbySalto.Mid.WebApi.Models.ProductDto;
 
 public class Product
 {
@@ -11,7 +13,7 @@ public class Product
     public float Rating { get; set; }
     public int Stock { get; set; }
     public List<string> Tags { get; set; }
-    public string Brand { get; set; }
+    public string? Brand { get; set; }
     public string Sku { get; set; }
     public float Weight { get; set; }
     public Dimensions Dimensions { get; set; }
@@ -24,6 +26,7 @@ public class Product
     public Meta Meta { get; set; }
     public string Thumbnail { get; set; }
     public List<string> Images { get; set; }
+    public bool IsFavorite { get; set; }
 }
 
 public class Dimensions
