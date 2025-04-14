@@ -1,13 +1,13 @@
 How to run app
 
 Start FE
--go into dir: UI/eCommerce/src
--npm install
--ng serve
--Navigate to your localhost
+- go into dir: UI/eCommerce/src
+- npm install
+- ng serve
+- Navigate to your localhost
 
 Start BE
--When starting BE, Seeder for Role will trigger and make necessary role for app to work
+- When starting BE, Seeder for Role will trigger and make necessary role for app to work
 
 About app
 
